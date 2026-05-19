@@ -10,10 +10,14 @@ def select_file() -> str:
     root.attributes("-topmost", True)
     root.withdraw()
 
-    return filedialog.askopenfilename(
-        title="Sélectionne un fichier Aramco",
-        filetypes=[("Data Files", "*.xlsx *.xls *.csv")]
-    )
+    try:
+        path = filedialog.askopenfilename(
+            title="Select Aramco file",
+            filetypes=[("Data Files", "*.xlsx *.xls *.csv")]
+        )
+        return path
+    finally:
+        root.destroy()
 
 
 def load_raw_data() -> pd.DataFrame | None:

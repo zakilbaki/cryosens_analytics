@@ -14,175 +14,175 @@ console = Console()
 
 def convert_pressures(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Interface interactive pour convertir les unités de pression.
-    Cible les colonnes 'PI' (exclut automatiquement les 'PDI').
+    Interactive interface to convert pressure units.
+    Targets PI columns and automatically excludes PDI columns.
     """
     df = df.copy()
     
-    # 1. Identification automatique des colonnes PI (et pas PDI)
+    # 1. Automatically identify PI columns, excluding PDI columns
     target_cols = [c for c in df.columns if c.lower() != "time" and "P_" in c.upper() and "PD_" not in c.upper()]
     
     if not target_cols:
-        _warn("Aucune colonne 'PI' détectée pour la conversion.")
+        _warn("No PI column detected for conversion.")
         return df
 
-    # 2. Affichage de l'interface de choix
-    console.print(Panel(f"[bold]Conversion d'Unités Pression (PI)[/]\nColonnes ciblées : {', '.join(target_cols)}", style="magenta"))
+    # 2. Display the selection interface
+    console.print(Panel(f"[bold]Pressure Unit Conversion (PI)[/]\nTarget columns: {', '.join(target_cols)}", style="magenta"))
     
     menu_text = "[white]1[/] → Bar\n[white]2[/] → PSI\n[white]3[/] → kPa"
     
-    console.print("[bold cyan]Unité d'ENTRÉE (actuelle des données) :[/]")
+    console.print("[bold cyan]INPUT unit (current data unit):[/]")
     console.print(menu_text)
-    choice_in = Prompt.ask("Votre choix", choices=["1", "2", "3"], default="1")
+    choice_in = Prompt.ask("Your choice", choices=["1", "2", "3"], default="1")
     
-    console.print("\n[bold green]Unité de SORTIE (voulue pour l'analyse) :[/]")
+    console.print("\n[bold green]OUTPUT unit (wanted for analysis):[/]")
     console.print(menu_text)
-    choice_out = Prompt.ask("Votre choix", choices=["1", "2", "3"], default="1")
+    choice_out = Prompt.ask("Your choice", choices=["1", "2", "3"], default="1")
 
-    # Mappage des choix
+    # Choice mapping
     mapping = {"1": "BAR", "2": "PSI", "3": "KPA"}
     u_in = mapping[choice_in]
     u_out = mapping[choice_out]
 
     if u_in == u_out:
-        _ok("Unités identiques, aucune modification appliquée.")
+        _ok("Same units selected, no change applied.")
         return df
 
-    # 3. Logique de conversion (Pivot Bar)
+    # 3. Conversion logic using bar as pivot unit
     for col in target_cols:
         
-        # Étape A : On convertit l'entrée en Bar
+        # Step A: convert input unit to bar
         if u_in == "PSI":
             df[col] = df[col] / 14.5038
         elif u_in == "KPA":
             df[col] = df[col] / 100
             
-        # Étape B : On convertit du Bar vers la sortie
+        # Step B: convert from bar to output unit
         if u_out == "PSI":
             df[col] = df[col] * 14.5038
         elif u_out == "KPA":
             df[col] = df[col] * 100
 
-    _ok(f"Succès : Conversion {u_in} → {u_out} effectuée sur {len(target_cols)} colonnes.")
+    _ok(f"Success: conversion {u_in} → {u_out} applied to {len(target_cols)} columns.")
     return df
 
 
 def convert_pdi(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Interface interactive pour convertir les unités de pression différentielle.
-    Cible uniquement les colonnes 'PDI'.
+    Interactive interface to convert differential pressure units.
+    Targets only PDI columns.
     """
     df = df.copy()
     
-    # 1. Identification automatique des colonnes PDI
+    # 1. Automatically identify PDI columns
     target_cols = [c for c in df.columns if c.lower() != "time" and "PD_" in c.upper()]
     
     if not target_cols:
-        _warn("Aucune colonne 'PD_' détectée pour la conversion.")
+        _warn("No PD_ column detected for conversion.")
         return df
 
-    # 2. Affichage de l'interface de choix
-    console.print(Panel(f"[bold]Conversion d'Unités Différentielles (PD_)[/]\nColonnes ciblées : {', '.join(target_cols)}", style="magenta"))
+    # 2. Display the selection interface
+    console.print(Panel(f"[bold]Differential Pressure Unit Conversion (PD_)[/]\nTarget columns: {', '.join(target_cols)}", style="magenta"))
     
     menu_text = "[white]1[/] → milliBar (mbar)\n[white]2[/] → Inches of Water (inH2O)\n[white]3[/] → Pascal (Pa)"
     
-    console.print("[bold cyan]Unité d'ENTRÉE (actuelle des données) :[/]")
+    console.print("[bold cyan]INPUT unit (current data unit):[/]")
     console.print(menu_text)
-    choice_in = Prompt.ask("Votre choix", choices=["1", "2", "3"], default="1")
+    choice_in = Prompt.ask("Your choice", choices=["1", "2", "3"], default="1")
     
-    console.print("\n[bold green]Unité de SORTIE (voulue pour l'analyse) :[/]")
+    console.print("\n[bold green]OUTPUT unit (wanted for analysis):[/]")
     console.print(menu_text)
-    choice_out = Prompt.ask("Votre choix", choices=["1", "2", "3"], default="1")
+    choice_out = Prompt.ask("Your choice", choices=["1", "2", "3"], default="1")
 
-    # Mappage des choix
+    # Choice mapping
     mapping = {"1": "MBAR", "2": "INH2O", "3": "PA"}
     u_in = mapping[choice_in]
     u_out = mapping[choice_out]
 
     if u_in == u_out:
-        _ok("Unités identiques, aucune modification appliquée.")
+        _ok("Same units selected, no change applied.")
         return df
 
-    # 3. Logique de conversion (Pivot mbar)
+    # 3. Conversion logic using mbar as pivot unit
     for col in target_cols:
         
-        # Étape A : On convertit l'entrée en mbar
+        # Step A: convert input unit to mbar
         if u_in == "INH2O":
             df[col] = df[col] * 2.49089
         elif u_in == "PA":
             df[col] = df[col] / 100
             
-        # Étape B : On convertit du mbar vers la sortie
+        # Step B: convert from mbar to output unit
         if u_out == "INH2O":
             df[col] = df[col] / 2.49089
         elif u_out == "PA":
             df[col] = df[col] * 100
 
-    _ok(f"Succès : Conversion {u_in} → {u_out} effectuée sur {len(target_cols)} colonnes.")
+    _ok(f"Success: conversion {u_in} → {u_out} applied to {len(target_cols)} columns.")
     return df
 
 
 
 def convert_temperatures(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Interface interactive pour convertir les unités de température.
-    Prend uniquement le DataFrame en entrée.
+    Interactive interface to convert temperature units.
+    Takes only the DataFrame as input.
     """
     df = df.copy()
     
-    # 1. Identification automatique des colonnes TI
+    # 1. Automatically identify TI columns
     target_cols = [c for c in df.columns if c.lower() != "time" and "T_" in c.upper()]
     
     if not target_cols:
-        _warn("Aucune colonne 'T_' détectée pour la conversion.")
+        _warn("No T_ column detected for conversion.")
         return df
 
-    # 2. Affichage de l'interface de choix
-    console.print(Panel(f"[bold]Conversion d'Unités[/]\nColonnes ciblées : {', '.join(target_cols)}", style="magenta"))
+    # 2. Display the selection interface
+    console.print(Panel(f"[bold]Unit Conversion[/]\nTarget columns: {', '.join(target_cols)}", style="magenta"))
     
-    # ASTUCE : On crée le texte du menu une seule fois pour garantir que les choix sont identiques
+    # Tip: create the menu text only once to keep choices consistent
     menu_text = "[white]1[/] → Celsius (°C)\n[white]2[/] → Fahrenheit (°F)\n[white]3[/] → Kelvin (K)"
     
-    console.print("[bold cyan]Unité d'ENTRÉE (actuelle des données) :[/]")
+    console.print("[bold cyan]INPUT unit (current data unit):[/]")
     console.print(menu_text)
-    choice_in = Prompt.ask("Votre choix", choices=["1", "2", "3"], default="2")
+    choice_in = Prompt.ask("Your choice", choices=["1", "2", "3"], default="2")
     
-    console.print("\n[bold green]Unité de SORTIE (voulue pour l'analyse) :[/]")
+    console.print("\n[bold green]OUTPUT unit (wanted for analysis):[/]")
     console.print(menu_text)
-    choice_out = Prompt.ask("Votre choix", choices=["1", "2", "3"], default="1")
+    choice_out = Prompt.ask("Your choice", choices=["1", "2", "3"], default="1")
 
-    # Mappage des choix - Maintenant parfaitement aligné avec le menu_text
+    # Choice mapping, now perfectly aligned with menu_text
     mapping = {"1": "C", "2": "F", "3": "K"}
     u_in = mapping[choice_in]
     u_out = mapping[choice_out]
 
     if u_in == u_out:
-        _ok("Unités identiques, aucune modification appliquée.")
+        _ok("Same units selected, no change applied.")
         return df
 
-    # 3. Logique de conversion (Pivot Celsius - 100% robuste)
+    # 3. Conversion logic using Celsius as pivot unit
     for col in target_cols:
         
-        # Étape A : On convertit l'entrée en Celsius
+        # Step A: convert input unit to Celsius
         if u_in == "F":
             df[col] = (df[col] - 32) * 5 / 9
         elif u_in == "K":
             df[col] = df[col] - 273.15
             
-        # Étape B : On convertit du Celsius (la valeur modifiée ci-dessus) vers la sortie
+        # Step B: convert from Celsius to output unit
         if u_out == "F":
             df[col] = (df[col] * 9 / 5) + 32
         elif u_out == "K":
             df[col] = df[col] + 273.15
 
-    _ok(f"Succès : Conversion {u_in} → {u_out} effectuée sur {len(target_cols)} colonnes.")
+    _ok(f"Success: conversion {u_in} → {u_out} applied to {len(target_cols)} columns.")
     return df
 # ─────────────────────────────────────────────────────────────────────────────
-# HELPERS VISUELS (MESSAGES ORIGINAUX)
+# VISUAL HELPERS
 # ─────────────────────────────────────────────────────────────────────────────
 def split_df_by_sensor_types(df: pd.DataFrame):
     if "time" not in df.columns:
-        raise ValueError("Le DataFrame doit contenir une colonne 'time'")
+        raise ValueError("The DataFrame must contain a 'time' column.")
 
     t_cols  = ["time"] + [c for c in df.columns if c != "time" and c.upper().startswith("T_")]
     dp_cols = ["time"] + [c for c in df.columns if c != "time" and c.upper().startswith("DP_")]
@@ -192,9 +192,9 @@ def split_df_by_sensor_types(df: pd.DataFrame):
     df_dp = df[dp_cols].copy() if len(dp_cols) > 1 else None
     df_p = df[p_cols].copy() if len(p_cols) > 1 else None
 
-    table = Table(title="Split par type de capteur", box=box.SIMPLE_HEAVY)
+    table = Table(title="Split by sensor type", box=box.SIMPLE_HEAVY)
     table.add_column("Label", style="bold cyan")
-    table.add_column("Colonnes", style="white")
+    table.add_column("Columns", style="white")
     table.add_column("Shape", style="yellow")
 
     for label, sub_df in [("T_", df_t), ("DP_", df_dp), ("P_", df_p)]:
@@ -204,13 +204,13 @@ def split_df_by_sensor_types(df: pd.DataFrame):
     console.print(table)
     return df_t, df_dp, df_p
 
-def _show_columns_table(df: pd.DataFrame, title: str = "Colonnes disponibles") -> None:
+def _show_columns_table(df: pd.DataFrame, title: str = "Available columns") -> None:
     table = Table(title=title, box=box.SIMPLE_HEAVY, show_lines=False)
     table.add_column("#",      style="dim cyan",   justify="right", no_wrap=True)
-    table.add_column("Nom",    style="bold white",  no_wrap=False)
+    table.add_column("Name",   style="bold white",  no_wrap=False)
     table.add_column("Type",   style="yellow",      no_wrap=True)
     table.add_column("NaN %",  style="red",         justify="right", no_wrap=True)
-    table.add_column("Aperçu", style="dim",         no_wrap=True)
+    table.add_column("Preview", style="dim",        no_wrap=True)
 
     for i, col in enumerate(df.columns):
         nan_pct = df[col].isna().mean() * 100
@@ -222,31 +222,31 @@ def _show_columns_table(df: pd.DataFrame, title: str = "Colonnes disponibles") -
     console.print(table)
 
 
-def _show_data_preview(df: pd.DataFrame, n_rows: int = 5, title: str = "Aperçu des données") -> None:
+def _show_data_preview(df: pd.DataFrame, n_rows: int = 5, title: str = "Data preview") -> None:
     
     if df.empty:
-        _warn("Le DataFrame est vide, rien à afficher.")
+        _warn("The DataFrame is empty, nothing to display.")
         return
 
     max_cols = 10
     cols_to_show = df.columns[:max_cols]
     
     table = Table(
-        title=f"[bold cyan]{title}[/] [dim]({len(df)} lignes x {len(df.columns)} col)[/]", 
+        title=f"[bold cyan]{title}[/] [dim]({len(df)} rows x {len(df.columns)} cols)[/]", 
         box=box.ROUNDED, 
         header_style="bold magenta",
         border_style="dim blue",
         show_lines=True
     )
 
-    # Colonnes normales uniquement
+    # Regular columns only
     for col in cols_to_show:
         table.add_column(str(col), justify="center", no_wrap=True)
     
     if len(df.columns) > max_cols:
         table.add_column("...", justify="center")
 
-    # Lignes
+    # Rows
     for i in range(min(n_rows, len(df))):
         row_data = [str(val)[:20] for val in df.iloc[i, :max_cols].values]
         if len(df.columns) > max_cols:
@@ -272,20 +272,20 @@ def _parse_index_list(raw: str, max_idx: int) -> list[int]:
     return [i for i in indices if 0 <= i < max_idx]
 
 # ─────────────────────────────────────────────────────────────────────────────
-# FONCTIONS DE TRANSFORMATION
+# TRANSFORMATION FUNCTIONS
 # ─────────────────────────────────────────────────────────────────────────────
 
 def crop_top_rows(df: pd.DataFrame, start_row: int) -> pd.DataFrame:
     if not (0 <= start_row < len(df)):
-        _warn(f"start_row={start_row} invalide (0–{len(df)-1}), aucune ligne supprimée")
+        _warn(f"Invalid start_row={start_row} (0–{len(df)-1}), no rows removed.")
         return df.copy()
     cropped = df.iloc[start_row:].reset_index(drop=True)
-    _ok(f"{start_row} lignes supprimées → {len(cropped)} lignes restantes")
+    _ok(f"{start_row} rows removed → {len(cropped)} rows remaining.")
     return cropped
 
 def promote_row_to_header(df: pd.DataFrame, row_index: int = 0) -> pd.DataFrame:
     if not (0 <= row_index < len(df)):
-        _err(f"row_index={row_index} invalide")
+        _err(f"Invalid row_index={row_index}.")
         return df
     new_cols = df.iloc[row_index].fillna("unnamed").astype(str).tolist()
     seen = {}
@@ -296,47 +296,47 @@ def promote_row_to_header(df: pd.DataFrame, row_index: int = 0) -> pd.DataFrame:
         seen[c] = count + 1
     df = df.iloc[row_index + 1:].reset_index(drop=True)
     df.columns = deduped
-    _ok(f"Ligne {row_index} promue en en-tête ({len(df.columns)} colonnes)")
+    _ok(f"Row {row_index} promoted to header ({len(df.columns)} columns).")
     return df
 
 def choose_and_rename_time_column(df: pd.DataFrame) -> pd.DataFrame:
-    console.print(Panel("[bold]Sélection de la colonne temporelle[/]", style="cyan"))
+    console.print(Panel("[bold]Time column selection[/]", style="cyan"))
     _show_columns_table(df)
     while True:
-        raw = Prompt.ask("[cyan]Numéro de la colonne temporelle[/]")
+        raw = Prompt.ask("[cyan]Time column number[/]")
         if raw.isdigit() and 0 <= (idx := int(raw)) < len(df.columns): break
-        _warn(f"Entrez un entier entre 0 et {len(df.columns) - 1}")
+        _warn(f"Enter an integer between 0 and {len(df.columns) - 1}.")
     old_name = df.columns[idx]
     df.rename(columns={old_name: "time"}, inplace=True)
-    _ok(f"Colonne '[italic]{old_name}[/italic]' (index {idx}) renommée en 'time'")
+    _ok(f"Column '[italic]{old_name}[/italic]' (index {idx}) renamed to 'time'.")
     return df
 
 def drop_columns_interactive(df: pd.DataFrame) -> pd.DataFrame:
-    console.print(Panel("[bold]Suppression de colonnes[/]", style="cyan"))
+    console.print(Panel("[bold]Column deletion[/]", style="cyan"))
     _show_columns_table(df)
-    raw = Prompt.ask("[cyan]Colonnes à supprimer[/] (indices/noms, vide pour aucune)", default="")
+    raw = Prompt.ask("[cyan]Columns to delete[/] (indices/names, empty for none)", default="")
     if not raw.strip():
-        _ok("Aucune colonne supprimée")
+        _ok("No column deleted.")
         return df
     idx_list = _parse_index_list(raw, len(df.columns))
     cols_to_drop = list(dict.fromkeys([df.columns[i] for i in idx_list] + [t.strip() for t in raw.split(",") if t.strip() in df.columns]))
     if not cols_to_drop:
-        _warn("Aucun identifiant valide trouvé")
+        _warn("No valid identifier found.")
         return df
-    console.print(f"[red]Colonnes qui seront supprimées :[/] {cols_to_drop}")
-    if Confirm.ask("Confirmer la suppression ?", default=True):
+    console.print(f"[red]Columns that will be deleted:[/] {cols_to_drop}")
+    if Confirm.ask("Confirm deletion?", default=True):
         df.drop(columns=cols_to_drop, inplace=True)
-        _ok(f"{len(cols_to_drop)} colonne(s) supprimée(s)")
+        _ok(f"{len(cols_to_drop)} column(s) deleted.")
     return df
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TON AFFICHAGE EXACT POUR LE RENOMMAGE
+# COLUMN RENAMING UI
 # ─────────────────────────────────────────────────────────────────────────────
 
 def rename_columns_ui(df: pd.DataFrame) -> None:
     header = widgets.HTML(value="""
-    <h3>📝 Renommage des colonnes</h3>
-    <p>Modifiez les noms à droite. Laissez tel quel si aucun changement n'est nécessaire.</p>
+    <h3>📝 Column renaming</h3>
+    <p>Edit the names on the right. Leave them unchanged if no change is needed.</p>
 
     <div style="
         padding: 12px;
@@ -346,20 +346,20 @@ def rename_columns_ui(df: pd.DataFrame) -> None:
         background-color: #f6f8fa;
         line-height: 1.6;
     ">
-        <b>Règles de renommage :</b><br>
-        • La colonne temporelle doit s'appeler : <code>time</code><br>
-        • Les capteurs de température doivent commencer par : <code>T_</code><br>
-        • Les capteurs de pression doivent commencer par : <code>P_</code><br>
-        • Les capteurs de pression différentielle doivent commencer par : <code>DP_</code><br><br>
+        <b>Renaming rules:</b><br>
+        • The time column must be named: <code>time</code><br>
+        • Temperature sensors must start with: <code>T_</code><br>
+        • Pressure sensors must start with: <code>P_</code><br>
+        • Differential pressure sensors must start with: <code>DP_</code><br><br>
 
-        <b>Exemples :</b><br>
+        <b>Examples:</b><br>
         <code>time</code><br>
         <code>T_FEED_IN</code><br>
         <code>P_OUTLET</code><br>
         <code>DP_PASS_A</code><br><br>
 
         <span style="color:#555;">
-        Ces préfixes permettent à la boîte à outils de reconnaître automatiquement les familles de capteurs.
+        These prefixes allow the toolbox to automatically identify sensor families.
         </span>
     </div>
     """)
@@ -376,7 +376,7 @@ def rename_columns_ui(df: pd.DataFrame) -> None:
         rows.append(widgets.HBox([label, widgets.Label(value=" ➡️ "), text_box]))
 
     button = widgets.Button(
-        description="✅ Valider le renommage",
+        description="✅ Validate renaming",
         button_style='success',
         layout=widgets.Layout(width='250px', margin='20px 0 0 0'),
         icon='check'
@@ -387,141 +387,141 @@ def rename_columns_ui(df: pd.DataFrame) -> None:
         with output:
             clear_output()
             new_names_map = {old: box.value.strip() for old, box in text_boxes.items()}
-            nouveaux_noms = list(new_names_map.values())
+            new_names = list(new_names_map.values())
 
-            if len(nouveaux_noms) != len(set(nouveaux_noms)):
-                print("❌ Erreur : Deux colonnes ne peuvent pas avoir le même nom.")
+            if len(new_names) != len(set(new_names)):
+                print("❌ Error: two columns cannot have the same name.")
                 return
 
             changes = {k: v for k, v in new_names_map.items() if k != v}
 
             if not changes:
-                print("ℹ️ Aucune modification effectuée.")
+                print("ℹ️ No change applied.")
             else:
                 df.rename(columns=new_names_map, inplace=True)
-                print(f"✨ Succès ! {len(changes)} colonne(s) renommée(s).")
-                print(f"Nouveaux noms : {list(changes.values())}")
+                print(f"✨ Success! {len(changes)} column(s) renamed.")
+                print(f"New names: {list(changes.values())}")
 
     button.on_click(on_button_click)
     ui_container = widgets.VBox([header] + rows + [button, output])
     display(ui_container)
 # ─────────────────────────────────────────────────────────────────────────────
-# NETTOYAGE & NaN
+# CLEANING & NaN
 # ─────────────────────────────────────────────────────────────────────────────
 
 def convert_columns_to_float(df: pd.DataFrame) -> pd.DataFrame:
     for col in df.columns:
         if col != "time":
             df[col] = pd.to_numeric(df[col], errors='coerce')
-    _ok("Toutes les colonnes (hors time) converties en float")
+    _ok("All columns except time converted to float.")
     return df
 
 def handle_nans(df: pd.DataFrame) -> pd.DataFrame:
-    console.print(Panel("[bold]Gestion des NaN[/]", style="cyan"))
-    _show_columns_table(df, "État des NaN")
+    console.print(Panel("[bold]NaN handling[/]", style="cyan"))
+    _show_columns_table(df, "NaN status")
     
-    # Stratégie suggérée : Nettoyage auto des colonnes trop vides
+    # Suggested strategy: automatically remove columns with too many missing values
     num_cols = [col for col in df.columns if col != "time"]
-    threshold = 0.8  # 80% de vide
+    threshold = 0.8  # 80% missing values
     
     cols_to_drop = [c for c in num_cols if df[c].isna().mean() > threshold]
     if cols_to_drop:
-        _warn(f"Colonnes exclues car trop vides (>80%) : {cols_to_drop}")
+        _warn(f"Columns excluded because they are too empty (>80%): {cols_to_drop}")
         df = df.drop(columns=cols_to_drop)
         num_cols = [c for c in num_cols if c not in cols_to_drop]
 
-    console.print("\n[bold]Stratégies :[/]\n[cyan]1[/] → Supprimer lignes (Risqué : peut tout vider)"
-                  "\n[cyan]2[/] → Moyenne\n[cyan]3[/] → Médiane\n[cyan]4[/] → Interpolation (Conseillé)")
+    console.print("\n[bold]Strategies:[/]\n[cyan]1[/] → Drop rows (risky: may remove everything)"
+                  "\n[cyan]2[/] → Mean\n[cyan]3[/] → Median\n[cyan]4[/] → Interpolation (recommended)")
     
-    c = Prompt.ask("Votre choix", choices=["1","2","3","4"], default="4")
+    c = Prompt.ask("Your choice", choices=["1","2","3","4"], default="4")
     
     if c == "1":
         before = len(df)
         df = df.dropna(subset=num_cols).reset_index(drop=True)
-        _ok(f"Lignes supprimées : {before - len(df)}")
+        _ok(f"Rows deleted: {before - len(df)}")
         
     elif c in ["2", "3"]:
         for col in num_cols:
             val = df[col].mean() if c == "2" else df[col].median()
             df[col] = df[col].fillna(val)
-        _ok(f"NaN remplacés par la {'moyenne' if c=='2' else 'médiane'}")
+        _ok(f"NaN values replaced by the {'mean' if c=='2' else 'median'}")
         
     elif c == "4":
-        # On limite l'interpolation à 5 points consécutifs pour garder un sens physique
+        # Limit interpolation to 5 consecutive points to keep physical meaning
         df[num_cols] = df[num_cols].interpolate(method='linear', limit=5, limit_area='inside')
-        # On finit les petits NaNs restants par un ffill/bfill très court
+        # Fill remaining small NaN gaps with a short ffill/bfill
         df[num_cols] = df[num_cols].ffill(limit=2).bfill(limit=2)
-        _ok("Interpolation linéaire (max 5 pts consécutifs)")
+        _ok("Linear interpolation applied (max 5 consecutive points).")
         
     return df
 # ─────────────────────────────────────────────────────────────────────────────
-# PIPELINE ORCHESTRATEUR
+# PIPELINE ORCHESTRATOR
 # ─────────────────────────────────────────────────────────────────────────────
 def run_preprocessing_pipeline(df: pd.DataFrame) -> pd.DataFrame:
     console.print(Panel(
-        "[bold white]Pipeline de Preprocessing[/]\n"
-        "[dim]Visualisation active après chaque étape.[/]",
+        "[bold white]Preprocessing Pipeline[/]\n"
+        "[dim]Active preview after each step.[/]",
         style="bold blue", expand=False
     ))
 
-    # --- Étape 1 : Rogner ---
-    console.rule("[bold cyan]Étape 1/6 — Rogner les lignes du haut[/]")
-    _show_data_preview(df, title="État AVANT rognage")
-    if Confirm.ask("Exécuter : [bold]Rogner les lignes[/] ?", default=True):
-        start_row = IntPrompt.ask("Numéro de la première ligne utile", default=0)
+    # --- Step 1: Crop top rows ---
+    console.rule("[bold cyan]Step 1/6 — Crop top rows[/]")
+    _show_data_preview(df, title="State BEFORE cropping")
+    if Confirm.ask("Run: [bold]Crop rows[/]?", default=True):
+        start_row = IntPrompt.ask("Number of the first useful row", default=0)
         df = crop_top_rows(df, start_row - 1)
-        _show_data_preview(df, title="État APRÈS rognage")
+        _show_data_preview(df, title="State AFTER cropping")
 
-    # --- Étape 2 : Promotion ---
-    console.rule("[bold cyan]Étape 2/6 — Promouvoir en en-tête[/]")
+    # --- Step 2: Promote row to header ---
+    console.rule("[bold cyan]Step 2/6 — Promote row to header[/]")
     if not df.empty:
-        console.print(f"[yellow]Ligne 0 actuelle (sera le futur titre) :[/] {df.iloc[0].values.tolist()}")
-        if Confirm.ask("Promouvoir la ligne 0 en en-tête ?", default=True):
+        console.print(f"[yellow]Current row 0 (future header):[/] {df.iloc[0].values.tolist()}")
+        if Confirm.ask("Promote row 0 to header?", default=True):
             df = promote_row_to_header(df, 0)
-            _show_data_preview(df, title="État APRÈS promotion")
+            _show_data_preview(df, title="State AFTER header promotion")
 
-    # --- Étape 3 : Temps ---
-    console.rule("[bold cyan]Étape 3/6 — Choisir la colonne temporelle[/]")
-    if Confirm.ask("Exécuter : [bold]Définir la colonne TIME[/] ?", default=True):
+    # --- Step 3: Time column ---
+    console.rule("[bold cyan]Step 3/6 — Choose the time column[/]")
+    if Confirm.ask("Run: [bold]Define the TIME column[/]?", default=True):
         df = choose_and_rename_time_column(df)
 
         if "time" in df.columns:
             if not pd.api.types.is_datetime64_any_dtype(df["time"]):
                 df["time"] = pd.to_datetime(df["time"], errors="coerce")
-                _ok("Colonne 'time' convertie en datetime.")
+                _ok("Column 'time' converted to datetime.")
             else:
-                _ok("Colonne 'time' déjà au format datetime.")
+                _ok("Column 'time' is already in datetime format.")
 
-        _ok("Colonne 'time' configurée.")
+        _ok("Column 'time' configured.")
 
-    # --- Étape 4 : Suppression ---
-    console.rule("[bold cyan]Étape 4/6 — Supprimer des colonnes[/]")
-    if Confirm.ask("Exécuter : [bold]Suppression interactive[/] ?", default=True):
+    # --- Step 4: Column deletion ---
+    console.rule("[bold cyan]Step 4/6 — Delete columns[/]")
+    if Confirm.ask("Run: [bold]Interactive deletion[/]?", default=True):
         df = drop_columns_interactive(df)
-        _show_columns_table(df, "Colonnes restantes")
+        _show_columns_table(df, "Remaining columns")
 
-    # --- Étape 5 : Conversion Float ---
-    console.rule("[bold cyan]Étape 5/6 — Convertir les colonnes en float[/]")
-    if Confirm.ask("Exécuter : [bold]Conversion Float[/] ?", default=True):
+    # --- Step 5: Float conversion ---
+    console.rule("[bold cyan]Step 5/6 — Convert columns to float[/]")
+    if Confirm.ask("Run: [bold]Float conversion[/]?", default=True):
         df = convert_columns_to_float(df)
 
-    # --- Étape 6 : Gestion NaN ---
-    console.rule("[bold cyan]Étape 6/6 — Gérer les NaN[/]")
+    # --- Step 6: NaN handling ---
+    console.rule("[bold cyan]Step 6/6 — Handle NaN values[/]")
 
     nan_ratio = df.isna().mean() * 100
     has_nans = (nan_ratio > 0).any()
 
     if not has_nans:
-        _ok("Aucun NaN détecté.")
-        _show_data_preview(df, title="Dataset Final Nettoyé")
+        _ok("No NaN detected.")
+        _show_data_preview(df, title="Final cleaned dataset")
         return df
 
-    _show_columns_table(df, "Résumé des NaN détectés")
+    _show_columns_table(df, "Detected NaN summary")
 
-    # Sous-étape A : suppression des colonnes trop vides
-    if Confirm.ask("Supprimer les colonnes avec beaucoup de NaN ?", default=True):
+    # Sub-step A: delete columns with too many missing values
+    if Confirm.ask("Delete columns with many NaN values?", default=True):
         threshold_pct = IntPrompt.ask(
-            "Seuil (%) au-dessus duquel une colonne est supprimée",
+            "Threshold (%) above which a column is deleted",
             default=50
         )
 
@@ -529,24 +529,24 @@ def run_preprocessing_pipeline(df: pd.DataFrame) -> pd.DataFrame:
 
         if cols_to_drop:
             df = df.drop(columns=cols_to_drop)
-            _ok(f"Colonnes supprimées : {cols_to_drop}")
-            _show_columns_table(df, "Colonnes restantes après suppression NaN")
+            _ok(f"Deleted columns: {cols_to_drop}")
+            _show_columns_table(df, "Remaining columns after NaN deletion")
         else:
-            console.print("[yellow]Aucune colonne au-dessus du seuil.[/]")
+            console.print("[yellow]No column above the threshold.[/]")
 
     remaining_nans = int(df.isna().sum().sum())
 
     if remaining_nans == 0:
-        _ok("Il ne reste plus de NaN après suppression des colonnes.")
-        _show_data_preview(df, title="Dataset Final Nettoyé")
+        _ok("No NaN values remain after column deletion.")
+        _show_data_preview(df, title="Final cleaned dataset")
         return df
 
-    # Sous-étape B : traitement complémentaire optionnel
-    if Confirm.ask("Appliquer ensuite le traitement complémentaire des NaN ?", default=False):
+    # Sub-step B: optional additional NaN handling
+    if Confirm.ask("Apply additional NaN handling afterwards?", default=False):
         df = handle_nans(df)
-        _show_data_preview(df, title="Dataset Final Nettoyé")
+        _show_data_preview(df, title="Final cleaned dataset")
     else:
-        _ok("Aucun traitement complémentaire des NaN appliqué.")
-        _show_data_preview(df, title="Dataset après gestion simple des NaN")
+        _ok("No additional NaN handling applied.")
+        _show_data_preview(df, title="Dataset after simple NaN handling")
 
     return df

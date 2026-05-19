@@ -7,40 +7,9 @@ from IPython.display import display
 
 from ipywidgets import ToggleButton, Button, HBox, VBox, Layout, Output as ipyOutput
 from dash import Dash, dcc, html, Input, Output as dashOutput
+from cryosens.units import display_unit as _display_unit
+from cryosens.units import unit_label as _unit_label
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-# HELPERS
-# ─────────────────────────────────────────────────────────────────────────────
-
-def _display_unit(unit: str) -> str:
-    """
-    Convert user unit to display unit.
-    Examples:
-    - C -> °C
-    - F -> °F
-    - K -> K
-    - bar -> bar
-    """
-    mapping = {
-        "C": "°C",
-        "F": "°F",
-    }
-    return mapping.get(unit, unit)
-
-
-def _unit_label(base: str, unit: str | None = None, per_min: bool = False) -> str:
-    """
-    Build label with unit.
-    Examples:
-    - Value (°C)
-    - ROC (bar/min)
-    """
-    if not unit:
-        return base
-
-    disp_unit = _display_unit(unit)
-    return f"{base} ({disp_unit}/min)" if per_min else f"{base} ({disp_unit})"
 
 
 # ─────────────────────────────────────────────────────────────────────────────

@@ -5,36 +5,14 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from IPython.display import display
 from ipywidgets import FloatSlider, Dropdown, Output, VBox, Button, HBox, HTML
-
+from cryosens.units import display_unit as _display_unit
+from cryosens.units import unit_label as _unit_label
 
 # ─────────────────────────────────────────────────────────────────────────────
 # HELPERS
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _display_unit(unit: str) -> str:
-    """
-    Convert user unit to display unit.
-    Examples:
-    - C -> °C
-    - F -> °F
-    - K -> K
-    - bar -> bar
-    """
-    mapping = {
-        "C": "°C",
-        "F": "°F",
-    }
-    return mapping.get(unit, unit)
 
-
-def _unit_label(base: str, unit: str | None = None, per_min: bool = False) -> str:
-    """
-    Build axis/title label with unit.
-    """
-    if not unit:
-        return base
-    disp_unit = _display_unit(unit)
-    return f"{base} ({disp_unit}/min)" if per_min else f"{base} ({disp_unit})"
 
 
 def _resolve_unit(unit: str | None) -> str:
@@ -148,7 +126,6 @@ def detect_variations_cross_zero_from_clean(
     sensor_name: str,
     roc_min: float = 1.0,
     variation_min: float = 2.0,
-    apply_iqr_filter: bool = True,
 ) -> pd.DataFrame:
     if not {"time", "Value", "ROC"}.issubset(df_clean.columns):
         raise ValueError("df_clean must contain columns 'time', 'Value' and 'ROC'.")
@@ -206,12 +183,6 @@ def detect_variations_cross_zero_from_clean(
 
     df_res = pd.DataFrame(resultats)
 
-    if apply_iqr_filter and not df_res.empty:
-        q1 = df_res["Max_Speed"].quantile(0.25)
-        q3 = df_res["Max_Speed"].quantile(0.75)
-        iqr = q3 - q1
-        df_res = df_res[df_res["Max_Speed"] <= q3 + 1.5 * iqr].reset_index(drop=True)
-
     return df_res
 
 
@@ -220,7 +191,6 @@ def detect_variations_cross_zero(
     sensor_name: str,
     roc_min: float = 1.0,
     variation_min: float = 2.0,
-    apply_iqr_filter: bool = True,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     df_clean = compute_roc_series(df, sensor_name)
     df_res = detect_variations_cross_zero_from_clean(
@@ -228,7 +198,6 @@ def detect_variations_cross_zero(
         sensor_name=sensor_name,
         roc_min=roc_min,
         variation_min=variation_min,
-        apply_iqr_filter=apply_iqr_filter,
     )
     return df_res, df_clean
 
@@ -955,7 +924,6 @@ def detect_events_for_sensors(
     sensor_names: list[str],
     roc_min: float = 1.0,
     variation_min: float = 2.0,
-    apply_iqr_filter: bool = True,
 ) -> dict[str, pd.DataFrame]:
     results = {}
 
@@ -965,7 +933,6 @@ def detect_events_for_sensors(
             sensor_name=sensor,
             roc_min=roc_min,
             variation_min=variation_min,
-            apply_iqr_filter=apply_iqr_filter,
         )
         results[sensor] = df_res
 
