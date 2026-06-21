@@ -1,7 +1,7 @@
 [project]
 name = "cryosens-analytics"
 version = "0.1.0"
-description = "Analytics toolbox for heat exchanger performance monitoring"
+description = "Interactive analytics toolbox for industrial thermal sensor data"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -28,6 +28,10 @@ dev = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/cryosens"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
 
 [build-system]
 requires = ["hatchling"]
