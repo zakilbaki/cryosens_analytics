@@ -20,7 +20,7 @@ from cryosens.preprocessing.cleaning import (
     handle_nans
 )
 
-from cryosens.io.loader import load_raw_data
+from cryosens.io.loader import load_data, load_raw_data
 
 from cryosens.visualisation import (
     plot_sensors_dashboard,
