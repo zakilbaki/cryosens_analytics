@@ -112,10 +112,3 @@ GitHub Actions runs the test suite on every pull request. The tests cover data l
 unit labels, and Parquet persistence; the event thresholds and detected cycles must be
 validated against equipment context and engineering acceptance criteria.
 
-## Current limitations
-
-- The dashboards are designed for notebook-based, human-in-the-loop analysis.
-- Sensor naming and units vary by source and must be confirmed during preprocessing.
-- No labeled failure dataset is included, so the project reports events rather than a
-  supervised failure-prediction metric.
-- Very large files should be profiled before interactive use.
