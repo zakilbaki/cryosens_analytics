@@ -1,0 +1,408 @@
+{
+  "diagrams": [
+    {
+      "width": 1120,
+      "height": 800,
+      "title": "Turn sensor histories into engineering diagnostics",
+      "description": "Inspect changes, cycles, and coincident events in cryogenic time-series data.",
+      "filename": "architecture.svg",
+      "elements": [
+        {
+          "kind": "text",
+          "x": 40,
+          "y": 42,
+          "text": "CRYOSENS / ANALYTICAL WORKFLOW",
+          "font_size": 13,
+          "fill": "#0f766e",
+          "font_weight": 700
+        },
+        {
+          "kind": "text",
+          "x": 40,
+          "y": 84,
+          "text": "Turn sensor histories into engineering diagnostics",
+          "font_size": 29,
+          "fill": "#0f172a",
+          "font_weight": 700
+        },
+        {
+          "kind": "text",
+          "x": 40,
+          "y": 116,
+          "text": "Inspect changes, cycles, and coincident events in cryogenic time-series data.",
+          "font_size": 16,
+          "fill": "#475569",
+          "font_weight": 400
+        },
+        {
+          "kind": "rect",
+          "x": 40,
+          "y": 163,
+          "width": 300,
+          "height": 84,
+          "rx": 12,
+          "fill": "#eaf5f2",
+          "stroke": "#cbd5e1",
+          "stroke_width": 1
+        },
+        {
+          "kind": "rect",
+          "x": 40,
+          "y": 175,
+          "width": 4,
+          "height": 60,
+          "fill": "#0f766e",
+          "rx": 2
+        },
+        {
+          "kind": "text",
+          "x": 57,
+          "y": 190,
+          "text": "CSV / Excel history",
+          "font_size": 17,
+          "fill": "#0f172a",
+          "font_weight": 700
+        },
+        {
+          "kind": "text",
+          "x": 57,
+          "y": 213,
+          "text": "Temperature, pressure, timestamps",
+          "font_size": 13,
+          "fill": "#475569",
+          "font_weight": 400
+        },
+        {
+          "kind": "rect",
+          "x": 410,
+          "y": 163,
+          "width": 300,
+          "height": 84,
+          "rx": 12,
+          "fill": "#ffffff",
+          "stroke": "#cbd5e1",
+          "stroke_width": 1
+        },
+        {
+          "kind": "rect",
+          "x": 410,
+          "y": 175,
+          "width": 4,
+          "height": 60,
+          "fill": "#335d9e",
+          "rx": 2
+        },
+        {
+          "kind": "text",
+          "x": 427,
+          "y": 190,
+          "text": "Prepare signals",
+          "font_size": 17,
+          "fill": "#0f172a",
+          "font_weight": 700
+        },
+        {
+          "kind": "text",
+          "x": 427,
+          "y": 213,
+          "text": "Clean, select, rename, adjust units",
+          "font_size": 13,
+          "fill": "#475569",
+          "font_weight": 400
+        },
+        {
+          "kind": "rect",
+          "x": 780,
+          "y": 163,
+          "width": 300,
+          "height": 84,
+          "rx": 12,
+          "fill": "#eaf5f2",
+          "stroke": "#cbd5e1",
+          "stroke_width": 1
+        },
+        {
+          "kind": "rect",
+          "x": 780,
+          "y": 175,
+          "width": 4,
+          "height": 60,
+          "fill": "#0f766e",
+          "rx": 2
+        },
+        {
+          "kind": "text",
+          "x": 797,
+          "y": 190,
+          "text": "Parquet export",
+          "font_size": 17,
+          "fill": "#0f172a",
+          "font_weight": 700
+        },
+        {
+          "kind": "text",
+          "x": 797,
+          "y": 213,
+          "text": "Reusable prepared data",
+          "font_size": 13,
+          "fill": "#475569",
+          "font_weight": 400
+        },
+        {
+          "kind": "path",
+          "d": "M340,205 L410,205",
+          "fill": "none",
+          "stroke": "#64748b",
+          "stroke_width": 1.8,
+          "marker_end": "url(#arrow)"
+        },
+        {
+          "kind": "path",
+          "d": "M710,205 L780,205",
+          "fill": "none",
+          "stroke": "#64748b",
+          "stroke_width": 1.8,
+          "marker_end": "url(#arrow)"
+        },
+        {
+          "kind": "rect",
+          "x": 40,
+          "y": 320,
+          "width": 1040,
+          "height": 215,
+          "rx": 16,
+          "fill": "#f1f5f9",
+          "stroke": "#dde5ed",
+          "stroke_width": 1
+        },
+        {
+          "kind": "text",
+          "x": 60,
+          "y": 348,
+          "text": "COMPLEMENTARY DIAGNOSTICS",
+          "font_size": 12,
+          "fill": "#475569",
+          "font_weight": 700
+        },
+        {
+          "kind": "rect",
+          "x": 60,
+          "y": 382,
+          "width": 295,
+          "height": 84,
+          "rx": 12,
+          "fill": "#ffffff",
+          "stroke": "#cbd5e1",
+          "stroke_width": 1
+        },
+        {
+          "kind": "rect",
+          "x": 60,
+          "y": 394,
+          "width": 4,
+          "height": 60,
+          "fill": "#335d9e",
+          "rx": 2
+        },
+        {
+          "kind": "text",
+          "x": 77,
+          "y": 409,
+          "text": "Rate of change",
+          "font_size": 17,
+          "fill": "#0f172a",
+          "font_weight": 700
+        },
+        {
+          "kind": "text",
+          "x": 77,
+          "y": 432,
+          "text": "Slopes and transition events",
+          "font_size": 13,
+          "fill": "#475569",
+          "font_weight": 400
+        },
+        {
+          "kind": "rect",
+          "x": 410,
+          "y": 382,
+          "width": 300,
+          "height": 84,
+          "rx": 12,
+          "fill": "#ffffff",
+          "stroke": "#cbd5e1",
+          "stroke_width": 1
+        },
+        {
+          "kind": "rect",
+          "x": 410,
+          "y": 394,
+          "width": 4,
+          "height": 60,
+          "fill": "#335d9e",
+          "rx": 2
+        },
+        {
+          "kind": "text",
+          "x": 427,
+          "y": 409,
+          "text": "Cycle analysis",
+          "font_size": 17,
+          "fill": "#0f172a",
+          "font_weight": 700
+        },
+        {
+          "kind": "text",
+          "x": 427,
+          "y": 432,
+          "text": "Structure recurring signal behavior",
+          "font_size": 13,
+          "fill": "#475569",
+          "font_weight": 400
+        },
+        {
+          "kind": "rect",
+          "x": 765,
+          "y": 382,
+          "width": 295,
+          "height": 84,
+          "rx": 12,
+          "fill": "#ffffff",
+          "stroke": "#cbd5e1",
+          "stroke_width": 1
+        },
+        {
+          "kind": "rect",
+          "x": 765,
+          "y": 394,
+          "width": 4,
+          "height": 60,
+          "fill": "#335d9e",
+          "rx": 2
+        },
+        {
+          "kind": "text",
+          "x": 782,
+          "y": 409,
+          "text": "Coincidence analysis",
+          "font_size": 17,
+          "fill": "#0f172a",
+          "font_weight": 700
+        },
+        {
+          "kind": "text",
+          "x": 782,
+          "y": 432,
+          "text": "Compare event timing across signals",
+          "font_size": 13,
+          "fill": "#475569",
+          "font_weight": 400
+        },
+        {
+          "kind": "path",
+          "d": "M560,247 L560,290 L335,290 L335,382",
+          "fill": "none",
+          "stroke": "#64748b",
+          "stroke_width": 1.8,
+          "marker_end": "url(#arrow)"
+        },
+        {
+          "kind": "path",
+          "d": "M560,290 L560,382",
+          "fill": "none",
+          "stroke": "#64748b",
+          "stroke_width": 1.8,
+          "marker_end": "url(#arrow)"
+        },
+        {
+          "kind": "path",
+          "d": "M560,290 L912,290 L912,382",
+          "fill": "none",
+          "stroke": "#64748b",
+          "stroke_width": 1.8,
+          "marker_end": "url(#arrow)"
+        },
+        {
+          "kind": "rect",
+          "x": 320,
+          "y": 613,
+          "width": 480,
+          "height": 84,
+          "rx": 12,
+          "fill": "#e8f2fc",
+          "stroke": "#cbd5e1",
+          "stroke_width": 1
+        },
+        {
+          "kind": "rect",
+          "x": 320,
+          "y": 625,
+          "width": 4,
+          "height": 60,
+          "fill": "#335d9e",
+          "rx": 2
+        },
+        {
+          "kind": "text",
+          "x": 337,
+          "y": 640,
+          "text": "Interactive engineering review",
+          "font_size": 17,
+          "fill": "#0f172a",
+          "font_weight": 700
+        },
+        {
+          "kind": "text",
+          "x": 337,
+          "y": 663,
+          "text": "Plotly diagnostics and dashboard exploration",
+          "font_size": 13,
+          "fill": "#475569",
+          "font_weight": 400
+        },
+        {
+          "kind": "path",
+          "d": "M207,466 L207,571 L560,571 L560,613",
+          "fill": "none",
+          "stroke": "#64748b",
+          "stroke_width": 1.8,
+          "marker_end": "url(#arrow)"
+        },
+        {
+          "kind": "path",
+          "d": "M560,466 L560,571 L560,571 L560,613",
+          "fill": "none",
+          "stroke": "#64748b",
+          "stroke_width": 1.8,
+          "marker_end": "url(#arrow)"
+        },
+        {
+          "kind": "path",
+          "d": "M912,466 L912,571 L560,571 L560,613",
+          "fill": "none",
+          "stroke": "#64748b",
+          "stroke_width": 1.8,
+          "marker_end": "url(#arrow)"
+        },
+        {
+          "kind": "line",
+          "x1": 40,
+          "y1": 745,
+          "x2": 1080,
+          "y2": 745,
+          "stroke": "#dbe3ec"
+        },
+        {
+          "kind": "text",
+          "x": 40,
+          "y": 772,
+          "text": "Descriptive signal analysis. No predictive failure classifier or measured detection accuracy is implied.",
+          "font_size": 12,
+          "fill": "#475569",
+          "font_weight": 400
+        }
+      ]
+    }
+  ],
+  "plots": []
+}

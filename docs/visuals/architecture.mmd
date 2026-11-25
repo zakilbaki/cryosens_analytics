@@ -1,0 +1,9 @@
+flowchart TD
+    S["CSV or Excel sensor history"] --> L["Load and select signals"]
+    L --> P["Clean, rename and prepare units"]
+    P --> R["Rate-of-change analysis"]
+    P --> C["Cycle analysis"]
+    R --> V["Interactive diagnostics"]
+    C --> V
+    V --> E["Engineering review"]
+    P --> D[("Parquet export")]

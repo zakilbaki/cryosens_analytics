@@ -1,67 +1,28 @@
 # CryoSens Analytics
 
-[![CI](https://github.com/zakilbaki/cryosens_analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/zakilbaki/cryosens_analytics/actions/workflows/ci.yml)
+Interactive analysis of temperature, pressure, and differential-pressure sensor histories for industrial equipment.
 
-Interactive Python toolkit for investigating rapid variations and operating cycles in
-industrial temperature, pressure, and differential-pressure signals.
+CryoSens makes rapid variations and operating cycles inspectable through reusable Python functions and notebook dashboards. Engineers can adjust thresholds, compare sensors, examine event coincidence, and export prepared data.
 
-CryoSens turns raw sensor exports into a guided diagnostic workflow for engineers. It
-focuses on transparent signal analytics: the user can inspect detected events, tune
-thresholds, and compare sensors instead of receiving an unexplained anomaly score.
+## Analysis workflow
 
-## Industrial use case
+![Technical architecture](docs/assets/architecture.svg)
 
-Rapid thermal or pressure changes can contribute to fatigue, material stress, and
-equipment degradation. Finding these events manually across long multivariate time
-series is slow and inconsistent. CryoSens provides reusable analyses for:
+[Diagram source](docs/visuals/visual_spec.json)
 
-- rate-of-change event detection;
-- threshold sensitivity studies;
-- heating and cooling cycle characterization;
-- cross-sensor event coincidence;
-- interactive visual diagnostics.
-
-This repository is an analytics and decision-support toolbox. It does not claim to
-predict equipment failure, and detected events still require domain validation.
-
-## Workflow
-
-```mermaid
-flowchart LR
-    A[CSV or Excel export] --> B[Schema and unit preparation]
-    B --> C[Signal cleaning]
-    C --> D[Rate-of-change analysis]
-    C --> E[Cycle analysis]
-    D --> F[Interactive dashboards]
-    E --> F
-    F --> G[Parquet export and engineering review]
-```
-
-| Module | Responsibility |
+| Analysis | Purpose |
 | --- | --- |
-| `io` | Scriptable and file-picker based CSV/Excel loading |
-| `preprocessing` | Column selection, missing values, renaming, unit conversion |
-| `analysis.roc` | Rapid-variation detection, statistics, sensitivity, coincidence |
-| `analysis.cycle` | Adaptive thermal-cycle detection and cycle summaries |
-| `visualisation` | Plotly and notebook dashboards |
-| `save_load` | Reproducible Parquet exports |
+| Rate of change | Identify rapid signal variations |
+| Threshold sensitivity | Examine how detected events change with settings |
+| Operating cycles | Characterize heating and cooling behavior |
+| Event coincidence | Compare event timing across sensors |
+| Interactive plots | Inspect signals and selected events in context |
 
-## Data contract
-
-The standard workflow expects one time column and one or more numeric sensor columns:
-
-```text
-time,temperature_c,pressure_bar
-2026-01-01T00:00:00,20.0,4.20
-2026-01-01T00:01:00,20.4,4.21
-```
-
-A small synthetic file is available at `examples/sample_sensor_data.csv`. It is provided
-only to verify the loading workflow; it is not production or customer data.
+Event thresholds require equipment-specific interpretation. The toolkit characterizes signals and supports engineering review; it does not estimate a validated equipment-failure probability.
 
 ## Quick start
 
-Requirements: Python 3.10+ and [uv](https://docs.astral.sh/uv/).
+Requires Python 3.10+ and uv.
 
 ```bash
 uv sync --extra dev
@@ -69,7 +30,9 @@ uv run python examples/quickstart.py
 uv run jupyter notebook notebooks/main.ipynb
 ```
 
-The loader can also be used without the notebook UI:
+The [synthetic sample](examples/sample_sensor_data.csv) exercises the loading workflow without customer measurements.
+
+Load your own export:
 
 ```python
 from cryosens.io.loader import load_data
@@ -77,38 +40,25 @@ from cryosens.io.loader import load_data
 sensor_data = load_data("measurements.csv")
 ```
 
-The notebook exposes the guided workflow through the public API:
+Use the [guided notebook](notebooks/main.ipynb) for preprocessing and interactive analysis. The [user guide](user_guide.pdf) covers the analyst workflow.
 
-```python
-from cryosens.api import (
-    launch_cycle_dashboard,
-    launch_event_coincidence_heatmap,
-    launch_roc,
-    load_raw_data,
-    run_preprocessing_pipeline,
-)
-```
+## Package structure
 
-See [`user_guide.pdf`](user_guide.pdf) for the end-user walkthrough.
+| Module | Responsibility |
+| --- | --- |
+| `io.loader` | CSV and Excel loading |
+| `preprocessing.cleaning` | Signal selection, missing values, renaming, unit preparation |
+| `analysis.roc` | Rapid variations, sensitivity, and event coincidence |
+| `analysis.cycle` | Cycle detection and summaries |
+| `visualisation` | Interactive plots and notebook interfaces |
+| `save_load` | Parquet persistence |
+| `api` | Guided-workflow entry points |
 
-## Repository structure
-
-```text
-src/cryosens/       reusable package
-notebooks/          guided analysis entry point
-examples/           synthetic input and scriptable quick start
-tests/              loading, units, and persistence tests
-user_guide.pdf      analyst-facing documentation
-```
-
-## Validation and quality
+## Verify
 
 ```bash
 uv sync --extra dev
 uv run pytest -q
 ```
 
-GitHub Actions runs the test suite on every pull request. The tests cover data loading,
-unit labels, and Parquet persistence; the event thresholds and detected cycles must be
-validated against equipment context and engineering acceptance criteria.
-
+The committed tests cover loading, unit labels, and Parquet persistence. Signal events and cycles should be reviewed with the relevant equipment context.

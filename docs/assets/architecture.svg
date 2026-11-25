@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="800" viewBox="0 0 1120 800" role="img" aria-labelledby="title desc">
+<title id="title">Turn sensor histories into engineering diagnostics</title><desc id="desc">Inspect changes, cycles, and coincident events in cryogenic time-series data.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#64748b"/></marker></defs>
+<rect width="1120" height="800" fill="#f8fafc"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="40" y="42" font-size="13" fill="#0f766e" font-weight="700">CRYOSENS / ANALYTICAL WORKFLOW</text>
+<text x="40" y="84" font-size="29" fill="#0f172a" font-weight="700">Turn sensor histories into engineering diagnostics</text>
+<text x="40" y="116" font-size="16" fill="#475569" font-weight="400">Inspect changes, cycles, and coincident events in cryogenic time-series data.</text>
+<rect x="40" y="163" width="300" height="84" rx="12" fill="#eaf5f2" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="40" y="175" width="4" height="60" fill="#0f766e" rx="2"/>
+<text x="57" y="190" font-size="17" fill="#0f172a" font-weight="700">CSV / Excel history</text>
+<text x="57" y="213" font-size="13" fill="#475569" font-weight="400">Temperature, pressure, timestamps</text>
+<rect x="410" y="163" width="300" height="84" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="410" y="175" width="4" height="60" fill="#335d9e" rx="2"/>
+<text x="427" y="190" font-size="17" fill="#0f172a" font-weight="700">Prepare signals</text>
+<text x="427" y="213" font-size="13" fill="#475569" font-weight="400">Clean, select, rename, adjust units</text>
+<rect x="780" y="163" width="300" height="84" rx="12" fill="#eaf5f2" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="780" y="175" width="4" height="60" fill="#0f766e" rx="2"/>
+<text x="797" y="190" font-size="17" fill="#0f172a" font-weight="700">Parquet export</text>
+<text x="797" y="213" font-size="13" fill="#475569" font-weight="400">Reusable prepared data</text>
+<path d="M340,205 L410,205" fill="none" stroke="#64748b" stroke-width="1.8"/>
+<polygon points="410.0,205.0 402.0,209.0 402.0,201.0" fill="#64748b"/>
+<path d="M710,205 L780,205" fill="none" stroke="#64748b" stroke-width="1.8"/>
+<polygon points="780.0,205.0 772.0,209.0 772.0,201.0" fill="#64748b"/>
+<rect x="40" y="320" width="1040" height="215" rx="16" fill="#f1f5f9" stroke="#dde5ed" stroke-width="1"/>
+<text x="60" y="348" font-size="12" fill="#475569" font-weight="700">COMPLEMENTARY DIAGNOSTICS</text>
+<rect x="60" y="382" width="295" height="84" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="60" y="394" width="4" height="60" fill="#335d9e" rx="2"/>
+<text x="77" y="409" font-size="17" fill="#0f172a" font-weight="700">Rate of change</text>
+<text x="77" y="432" font-size="13" fill="#475569" font-weight="400">Slopes and transition events</text>
+<rect x="410" y="382" width="300" height="84" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="410" y="394" width="4" height="60" fill="#335d9e" rx="2"/>
+<text x="427" y="409" font-size="17" fill="#0f172a" font-weight="700">Cycle analysis</text>
+<text x="427" y="432" font-size="13" fill="#475569" font-weight="400">Structure recurring signal behavior</text>
+<rect x="765" y="382" width="295" height="84" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="765" y="394" width="4" height="60" fill="#335d9e" rx="2"/>
+<text x="782" y="409" font-size="17" fill="#0f172a" font-weight="700">Coincidence analysis</text>
+<text x="782" y="432" font-size="13" fill="#475569" font-weight="400">Compare event timing across signals</text>
+<path d="M560,247 L560,290 L335,290 L335,382" fill="none" stroke="#64748b" stroke-width="1.8"/>
+<polygon points="335.0,382.0 331.0,374.0 339.0,374.0" fill="#64748b"/>
+<path d="M560,290 L560,382" fill="none" stroke="#64748b" stroke-width="1.8"/>
+<polygon points="560.0,382.0 556.0,374.0 564.0,374.0" fill="#64748b"/>
+<path d="M560,290 L912,290 L912,382" fill="none" stroke="#64748b" stroke-width="1.8"/>
+<polygon points="912.0,382.0 908.0,374.0 916.0,374.0" fill="#64748b"/>
+<rect x="320" y="613" width="480" height="84" rx="12" fill="#e8f2fc" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="320" y="625" width="4" height="60" fill="#335d9e" rx="2"/>
+<text x="337" y="640" font-size="17" fill="#0f172a" font-weight="700">Interactive engineering review</text>
+<text x="337" y="663" font-size="13" fill="#475569" font-weight="400">Plotly diagnostics and dashboard exploration</text>
+<path d="M207,466 L207,571 L560,571 L560,613" fill="none" stroke="#64748b" stroke-width="1.8"/>
+<polygon points="560.0,613.0 556.0,605.0 564.0,605.0" fill="#64748b"/>
+<path d="M560,466 L560,571 L560,571 L560,613" fill="none" stroke="#64748b" stroke-width="1.8"/>
+<polygon points="560.0,613.0 556.0,605.0 564.0,605.0" fill="#64748b"/>
+<path d="M912,466 L912,571 L560,571 L560,613" fill="none" stroke="#64748b" stroke-width="1.8"/>
+<polygon points="560.0,613.0 556.0,605.0 564.0,605.0" fill="#64748b"/>
+<line x1="40" y1="745" x2="1080" y2="745" stroke="#dbe3ec"/>
+<text x="40" y="772" font-size="12" fill="#475569" font-weight="400">Descriptive signal analysis. No predictive failure classifier or measured detection accuracy is implied.</text>
+</g></svg>
